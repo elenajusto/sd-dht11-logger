@@ -74,7 +74,7 @@ static void MX_USART3_UART_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
 static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
-
+void delay_us (uint16_t us);				// Microsecond delay function
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -120,7 +120,7 @@ int main(void)
   MX_USB_OTG_FS_PCD_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start(&htim1);			// Start TIM1 for microsecond delay function
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -810,6 +810,11 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void delay_us (uint16_t us){
+	__HAL_TIM_SET_COUNTER(&htim1,0);  			 // set the counter value a 0
+	while (__HAL_TIM_GET_COUNTER(&htim1) < us);  // wait for the counter to reach the microsecond (us) input
+}
 
 /* USER CODE END 4 */
 
