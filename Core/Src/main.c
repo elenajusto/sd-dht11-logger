@@ -74,7 +74,9 @@ static void MX_USART3_UART_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
 static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
-void delay_us (uint16_t us);				// Microsecond delay function
+void delay_us (uint16_t us);								// Microsecond delay function
+void setPinOutput(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin);
+void setPinInput(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -824,6 +826,22 @@ static void MX_GPIO_Init(void)
 void delay_us (uint16_t us){
 	__HAL_TIM_SET_COUNTER(&htim1,0);  			 // set the counter value a 0
 	while (__HAL_TIM_GET_COUNTER(&htim1) < us);  // wait for the counter to reach the microsecond (us) input
+}
+
+void setPinOutput(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+	GPIO_InitStruct.Pin = GPIO_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(GPIOx, &GPIO_InitStruct);
+}
+
+void setPinInput(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+	GPIO_InitStruct.Pin = GPIO_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
+	HAL_GPIO_Init(GPIOx, &GPIO_InitStruct);
 }
 
 /* USER CODE END 4 */
