@@ -21,7 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>				// sprintf
+#include <string.h>				// strlen
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -90,6 +91,8 @@ uint16_t SUM, RH, TEMP;
 float Temperature = 0;
 float Humidity = 0;
 uint8_t Presence = 0;
+
+char msg[30];				// USART message buffer
 /* USER CODE END 0 */
 
 /**
@@ -131,6 +134,10 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start(&htim1);			// Start TIM1 for microsecond delay function
+
+  sprintf(msg, "Program is running");
+  HAL_UART_Transmit(&huart2, (uint8_t*) msg, strlen(msg), HAL_MAX_DELAY);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -150,6 +157,9 @@ int main(void)
 
 	  Temperature = (float) TEMP;
 	  Humidity = (float) RH;
+
+	  sprintf(msg, "Temperature: %d\r\n", Temperature);
+	  HAL_UART_Transmit(&huart2, (uint8_t*) msg, strlen(msg), HAL_MAX_DELAY);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
