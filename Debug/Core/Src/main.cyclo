@@ -15,4 +15,5 @@
 ../Core/Src/main.c:842:6:setPinInput	1
 ../Core/Src/main.c:850:6:dht11Start	1
 ../Core/Src/main.c:859:9:dht11CheckResponse	4
-../Core/Src/main.c:879:6:Error_Handler	1
+../Core/Src/main.c:871:9:dht11Read	5
+../Core/Src/main.c:892:6:Error_Handler	1

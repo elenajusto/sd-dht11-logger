@@ -79,7 +79,7 @@ void setPinOutput(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin);
 void setPinInput(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin);
 void dht11Start(void);
 uint8_t dht11CheckResponse(void);
-void dht11Read(void);
+uint8_t dht11Read(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -864,11 +864,24 @@ uint8_t dht11CheckResponse(void){
 		if ((HAL_GPIO_ReadPin(DHT_SIGNAL_GPIO_Port, DHT_SIGNAL_Pin))) Response = 1;
 		else Response = -1;
 	}
-	while ((HAL_GPIO_ReadPin (DHT_SIGNAL_GPIO_Port, DHT_SIGNAL_Pin)));   // Wait for pin to go low
+	while ((HAL_GPIO_ReadPin(DHT_SIGNAL_GPIO_Port, DHT_SIGNAL_Pin)));   // Wait for pin to go low
 	return Response;
 }
 
-void dht11Read(void);
+uint8_t dht11Read(void){
+	uint8_t i,j;
+	for (j=0;j<8;j++){
+		while (!(HAL_GPIO_ReadPin(DHT_SIGNAL_GPIO_Port, DHT_SIGNAL_Pin)));   // wait for pin to go high
+		delay_us(40);		   // 40 us
+		if (!(HAL_GPIO_ReadPin(DHT_SIGNAL_GPIO_Port, DHT_SIGNAL_Pin))){		 // if the pin is low
+			i&= ~(1<<(7-j));   // write 0
+		} else {
+			i|= (1<<(7-j));    // write 1
+			while ((HAL_GPIO_ReadPin (DHT_SIGNAL_GPIO_Port, DHT_SIGNAL_Pin)));  // wait for  pin to go low
+		}
+		return i;
+	}
+}
 
 /* USER CODE END 4 */
 
