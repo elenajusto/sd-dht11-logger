@@ -84,7 +84,12 @@ uint8_t dht11Read(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+uint8_t Rh_byte1, Rh_byte2, Temp_byte1, Temp_byte2;
+uint16_t SUM, RH, TEMP;
 
+float Temperature = 0;
+float Humidity = 0;
+uint8_t Presence = 0;
 /* USER CODE END 0 */
 
 /**
@@ -132,6 +137,19 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  dht11Start();
+	  Presence = dht11CheckResponse();
+	  Rh_byte1 = dht11Read();
+	  Rh_byte2 = dht11Read();
+	  Temp_byte1 = dht11Read();
+	  Temp_byte2 = dht11Read();
+	  SUM = dht11Read();
+
+	  TEMP = Temp_byte1;
+	  RH = Rh_byte1;
+
+	  Temperature = (float) TEMP;
+	  Humidity = (float) RH;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
