@@ -77,6 +77,9 @@ static void MX_TIM1_Init(void);
 void delay_us (uint16_t us);								// Microsecond delay function
 void setPinOutput(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin);
 void setPinInput(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin);
+void dht11Start(void);
+void dht11CheckResponse(void);
+void dht11Read(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -844,6 +847,18 @@ void setPinInput(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 	HAL_GPIO_Init(GPIOx, &GPIO_InitStruct);
 }
 
+void dht11Start(void){
+	setPinOutput(DHT_SIGNAL_GPIO_Port, DHT_SIGNAL_Pin);
+	HAL_GPIO_WritePin(DHT_SIGNAL_GPIO_Port, DHT_SIGNAL_Pin, 0);   // Pull pin low
+	delay_us(18000);	// 18 ms
+	HAL_GPIO_WritePin(DHT_SIGNAL_GPIO_Port, DHT_SIGNAL_Pin, 1);   // Pull pin high
+	delay_us(20);		// 20 us
+	setPinInput(DHT_SIGNAL_GPIO_Port, DHT_SIGNAL_Pin);
+}
+
+void dht11CheckResponse(void);
+
+void dht11Read(void);
 /* USER CODE END 4 */
 
 /**
