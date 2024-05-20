@@ -78,7 +78,7 @@ void delay_us (uint16_t us);								// Microsecond delay function
 void setPinOutput(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin);
 void setPinInput(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin);
 void dht11Start(void);
-void dht11CheckResponse(void);
+uint8_t dht11CheckResponse(void);
 void dht11Read(void);
 /* USER CODE END PFP */
 
@@ -856,9 +856,20 @@ void dht11Start(void){
 	setPinInput(DHT_SIGNAL_GPIO_Port, DHT_SIGNAL_Pin);
 }
 
-void dht11CheckResponse(void);
+uint8_t dht11CheckResponse(void){
+	uint8_t Response = 0;
+	delay_us(40);		// 40 us
+	if (!(HAL_GPIO_ReadPin(DHT_SIGNAL_GPIO_Port, DHT_SIGNAL_Pin))){
+		delay_us(80);
+		if ((HAL_GPIO_ReadPin(DHT_SIGNAL_GPIO_Port, DHT_SIGNAL_Pin))) Response = 1;
+		else Response = -1;
+	}
+	while ((HAL_GPIO_ReadPin (DHT_SIGNAL_GPIO_Port, DHT_SIGNAL_Pin)));   // Wait for pin to go low
+	return Response;
+}
 
 void dht11Read(void);
+
 /* USER CODE END 4 */
 
 /**

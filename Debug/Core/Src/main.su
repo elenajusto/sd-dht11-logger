@@ -14,4 +14,5 @@
 ../Core/Src/main.c:834:6:setPinOutput	40	static
 ../Core/Src/main.c:842:6:setPinInput	40	static
 ../Core/Src/main.c:850:6:dht11Start	8	static
-../Core/Src/main.c:868:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main.c:859:9:dht11CheckResponse	16	static
+../Core/Src/main.c:879:6:Error_Handler	4	static,ignoring_inline_asm
