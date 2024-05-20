@@ -139,6 +139,8 @@ void Error_Handler(void);
 #define SAI1_SDA_GPIO_Port GPIOE
 #define SAI1_SCKA_Pin GPIO_PIN_5
 #define SAI1_SCKA_GPIO_Port GPIOE
+#define DHT_SIGNAL_Pin GPIO_PIN_11
+#define DHT_SIGNAL_GPIO_Port GPIOG
 #define PSRAM_WAIT_Pin GPIO_PIN_6
 #define PSRAM_WAIT_GPIO_Port GPIOD
 #define PSRAM_CLK_Pin GPIO_PIN_3
